@@ -1,0 +1,3 @@
+CLIENT_ID = "1a8584f9e10d4c61a052c1fadda71764"
+CLIENT_SECRET = "b853b733abf8454d8a5fb6f877075f5f"
+REDIRECT_URI = "http://localhost:3000/login"
