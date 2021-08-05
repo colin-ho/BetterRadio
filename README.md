@@ -2,7 +2,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/colin-ho/BetterRadio">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="images/Logo.png" alt="Logo" width="80" height="80">
   </a>
   <a href="https://better-radio.herokuapp.com">
     <h1 align="center">BetterRadio</h3>
@@ -111,7 +111,7 @@ To get a local copy up and running follow these simple steps.
 <!-- CONTACT -->
 ## Contact
 
-**Colin Ho**- [Linked-In](https://www.linkedin.com/in/colin-ho99/) - [Email](colin.ho99@gmail.com)
+- **Colin Ho** - [Linked-In](https://www.linkedin.com/in/colin-ho99/) - [Email](colin.ho99@gmail.com)
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
