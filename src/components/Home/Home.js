@@ -107,9 +107,9 @@ const Home = ({chooseRadio,redirect,discover,creator,update}) => {
             <Grid container direction="row"
             justify="flex-start"
             alignItems="center" className={classes.discoverCont}>
-                {discover ? <>{discover.map((item,i)=> 
+                {discover ? discover !== "error" ?<>{discover.map((item,i)=> 
                 <Discover key = {i} radio = {item} index = {i} handleOpen = {handleOpen} chooseRadio={chooseRadio}/>
-                )}</>: <CircularProgress className={classes.loading}/>}
+                )}</>:<Typography color="secondary">No Recommendations yet, please listen to more music</Typography>: <CircularProgress className={classes.loading}/>}
             </Grid>
             {radioOpen ? <RadioOpen addRadio={add} radio={radio.tracks} genres={radio.genres} indexOpen={indexOpen} handlePlay={handlePlay}/>: null}
             <CreateRadio add={add} page={page} setPage={setPage}/>

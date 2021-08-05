@@ -71,6 +71,7 @@ const CreateRadio = ({page,setPage,add}) => {
     const [added,setAdded]=useState();
     const [options,setOptions]=useState({})
     const [radioResults,setRadioResults]=useState()
+    const [reset,setReset]=useState(false)
 
     const addTrack = (track)=>{
         if (added){
@@ -106,6 +107,11 @@ const CreateRadio = ({page,setPage,add}) => {
             return track.id
         }),'options':options})
         .then((data)=>{
+            if (!data.data.tracks){
+                setRadioResults('error')
+            } else if (data.data.tracks.length === 0){
+                setRadioResults('error')
+            } else{
             setRadioResults(
                 added.map(track=>{
                     return {
@@ -143,13 +149,15 @@ const CreateRadio = ({page,setPage,add}) => {
                     largeAlbumUrl:largestAlbumImage.url,
                 }
                 }))
-            )
+            )}
         })
     }
 
     const handleCreate = ()=>{
-        create()
-        setPage(!page)
+        if (added){
+            create()
+            setPage(!page)
+        }
     }
 
     return (
@@ -198,9 +206,9 @@ const CreateRadio = ({page,setPage,add}) => {
                 </Grid>
                 <Divider className={classes.divider2}/>
                 <Grid item>
-                    <Typography variant="h5">Tunable Options</Typography>
-                    <Typography variant="subtitle2" color="textSecondary">*Use the sliders to tune the radio to your liking. Select minimum, maximum, and target values for any attribute you wish to adjust.</Typography>
-                    <Options options = {options} setOptions={setOptions}/>
+                    <Typography variant="h5">Tunable Options<Button style={{marginLeft:'10px'}}variant="outlined" size="small" onClick={()=>{setReset(!reset);setOptions({})}}color="secondary">Reset</Button></Typography>
+                    <Typography variant="body1" color="textSecondary">Use the sliders to tune the radio to your liking. Select minimum, maximum, and target values for any attribute you wish to adjust. </Typography>
+                    <Options options = {options} reset={reset} setOptions={setOptions}/>
                 </Grid>
                 <Button variant="contained" color="primary" className={classes.button} onClick={()=>{handleCreate()}}>Create</Button>
             </Grid> 
@@ -211,13 +219,13 @@ const CreateRadio = ({page,setPage,add}) => {
                 <Grid item  >
                     {radioResults ? <Typography variant="h5" className = {classes.cont1}>Radio Results</Typography>:null}
                         <div className = {classes.results}>
-                        {radioResults? <>{radioResults.map(track => (
+                        {radioResults? radioResults !== "error" ? <>{radioResults.map(track => (
                             <AddedTracks
                                 key={track.uri}
                                 track={track}
                                 deleteTrack={removeTrack}
                             />
-                        ))}</>:null}
+                        ))}</>:<Typography color="error">Unable to curate songs, please go back and edit your preferences</Typography>:null}
                         </div>
                 </Grid>
                 <TextField inputProps={{ maxLength: 200 }}label="Add a description" value = {description}
@@ -227,8 +235,8 @@ const CreateRadio = ({page,setPage,add}) => {
                 
             </Grid>
             <Grid item className={classes.button}>
-                <Button variant="contained" color="secondary" style={{marginRight:10}} onClick={()=>setPage(!page)}>Back</Button>
-                <Button variant="contained" color="primary" style={{marginLeft:10}} onClick={()=>add(pub,description,name,radioResults)}>Add Radio</Button>
+                <Button variant="contained" color="secondary" style={{marginRight:10}} onClick={()=>{setPage(!page);setOptions({})}}>Back</Button>
+                {radioResults !== "error" ? <Button variant="contained" color="primary" style={{marginLeft:10}} onClick={()=>add(pub,description,name,radioResults)}>Add Radio</Button>:null}
             </Grid>
             
         </Grid> 

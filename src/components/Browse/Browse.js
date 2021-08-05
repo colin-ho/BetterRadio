@@ -129,9 +129,9 @@ const Browse = ({chooseTrack,chooseRadio,top}) => {
             <Grid container direction="row"
             justify="flex-start"
             alignItems="center" className={classes.topCont}>
-                {top ? <>{top.map((track,index) => (
+                {top ? top !== "error" ? <>{top.map((track,index) => (
                 <TopSongs key={index} track = {track} chooseTrack={chooseTrack} getRadio={getRadio}/>
-                ))}</>:<CircularProgress className={classes.loading}/>}
+                ))}</>:<Typography color="secondary">No recommendations yet, please listen to more music.</Typography>:<CircularProgress className={classes.loading}/>}
             </Grid> 
             </>
         }

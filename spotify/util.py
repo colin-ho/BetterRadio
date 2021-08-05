@@ -15,10 +15,10 @@ from django.conf import settings
 from collections import Counter
 import threading
 
+song_scaler=load(os.path.join(settings.BASE_DIR, 'scaler.joblib'))
+ 
 def scale(item):
-    song_scaler=load(os.path.join(settings.BASE_DIR, 'scaler.joblib'))
     scaler = song_scaler.steps[0][1]
-    
     return scaler.transform(item)
 
 number_cols = ['valence', 'acousticness', 'danceability', 'duration_ms', 'energy',
@@ -116,17 +116,20 @@ def execute_spotify_api_request(session_id,endpoint,post_=False,put_=False,data=
     try:
         return response.json()
     except:
-        print(response)
+        print(response.json())
         return {'Error': 'Issue with request'}
 
 def search_song(session_id,query):
     user_tokens=get_user_tokens(session_id)
     jsonDec = json.decoder.JSONDecoder()
-    song_matrix = np.array(jsonDec.decode(user_tokens.mean_vector))
+    song_matrix=[]
+    if user_tokens.mean_vector:
+        song_matrix = np.array(jsonDec.decode(user_tokens.mean_vector))
 
     endpoint = "search?=q=" + query + "&type=track"+"&limit=50"
-    temp = execute_spotify_api_request(session_id,endpoint,post_=False)
-    temp = [item for item in temp['tracks']['items']]
+    temp = execute_spotify_api_request(session_id,endpoint,post_=False)['tracks']['items']
+    if temp == []:
+        return None
     result = []
     check = set()
     for item in temp:
@@ -134,34 +137,45 @@ def search_song(session_id,query):
         if checker not in check:
             check.add(checker)
             result.append(item)
+    if song_matrix == []:
+        return result
+    else:
+        endpoint2 = "audio-features?ids=" + result[0]['id']
+        for i in range (1,len(result)):
+            endpoint2+= "," + result[i]['id']
+        feats = execute_spotify_api_request(session_id,endpoint2,post_=False)
+        new=[]
+        for i in range(len(result)):
+            item = feats['audio_features'][i]
+            if item is not None:
+                temp2=[item[x] for x in number_cols]
+                temp2.append(result[i]['popularity'])
+                new.append(temp2)
+            else:
+                new.append([0 for x in range(14)])
+        song_matrix2 = np.array(list(new))
 
-    endpoint2 = "audio-features?ids=" + result[0]['id']
-    for i in range (1,len(result)):
-        endpoint2+= "," + result[i]['id']
-    feats = execute_spotify_api_request(session_id,endpoint2,post_=False)
-    new=[]
-    for i in range(len(result)):
-        item = feats['audio_features'][i]
-        if item is not None:
-            temp2=[item[x] for x in number_cols]
-            temp2.append(result[i]['popularity'])
-            new.append(temp2)
-        else:
-            new.append([0 for x in range(14)])
-        
-    song_matrix2 = np.array(list(new))
-
-    song_matrix2 = scale(song_matrix2)
-    distances = cdist(song_matrix, song_matrix2,'cosine')
-    index = list(np.argsort(distances)[:,:20][0])
-    reordered_by_scale = [result[k] for k in index]
-    reordered=[]
-    for i in range (len(reordered_by_scale)):
-        reordered.append(result[i])
-        reordered.append(reordered_by_scale[i])
-        
-    reordered = [i for n, i in enumerate(reordered) if i not in reordered[:n]]
-    return reordered
+        song_matrix2 = scale(song_matrix2)
+        distances = cdist(song_matrix, song_matrix2,'cosine')
+        index = list(np.argsort(distances)[:,:20][0])
+        reordered_by_scale = [result[k] for k in index]
+        artists = [artist[0] for group in jsonDec.decode(user_tokens.top_artists) for artist in group]
+        temp = [song for song in result if song['artists'][0]['id'] in artists]
+        reordered=[]
+        seen=set() 
+        for i in range (len(reordered_by_scale)):
+            if result[i]['id'] not in seen:
+                seen.add(result[i]['id'])
+                reordered.append(result[i])
+            if len(temp) > i:
+                if (temp[i]['id']) not in seen:
+                    seen.add(temp[i]['id'])
+                    reordered.append(temp[i])
+            if (reordered_by_scale[i]['id']) not in seen:
+                seen.add(reordered_by_scale[i]['id'])
+                reordered.append(reordered_by_scale[i])
+            
+        return reordered
 
 def get_radio(session_id,tracks,options):
     endpoint = "recommendations?seed_tracks=" + tracks[0]
@@ -176,6 +190,8 @@ def get_radio(session_id,tracks,options):
 def get_top(session_id):
     jsonDec = json.decoder.JSONDecoder()
     user_tokens=get_user_tokens(session_id)
+    if user_tokens.top_artists is None:
+        return None
     artists = jsonDec.decode(user_tokens.top_artists)
     total = sum([len(elem) for elem in artists])
     tracks=[]
@@ -196,6 +212,8 @@ def get_top(session_id):
 def get_discover(session_id):
     artists=[]
     user_tokens=get_user_tokens(session_id)
+    if user_tokens.top_artists is None:
+        return None
     jsonDec = json.decoder.JSONDecoder()
     artists = jsonDec.decode(user_tokens.top_artists)
 
@@ -254,6 +272,8 @@ def get_mean_vector(session_id,top):
 def get_top_artists(session_id):
     endpoint = "me/top/artists?time_range=short_term&limit=50"
     data = execute_spotify_api_request(session_id,endpoint,post_=False)['items']
+    if not data:
+        return None
     genres = {}
     for i in data:
         for genre in i['genres']:
@@ -294,6 +314,8 @@ def add_playlist(session_id,data):
     
 def get_playlist_recs(session_id,tracks):
     user_tokens=get_user_tokens(session_id)
+    if user_tokens.mean_vector is None:
+        return None
     jsonDec = json.decoder.JSONDecoder()
     song_matrix = np.array(jsonDec.decode(user_tokens.mean_vector))
 
@@ -326,6 +348,8 @@ def get_playlist_recs(session_id,tracks):
 
 def get_stuff(session_id):
     artists = get_top_artists(session_id)
+    if not artists:
+        return None,None
     total = sum([len(elem) for elem in artists])
     tracks=[]
     for group in artists:

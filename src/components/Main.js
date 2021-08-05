@@ -115,35 +115,39 @@ const Main = ({token,fetchData}) => {
 
   useEffect(()=>{
     axios.get('/spotify/get-top').then((data)=>{
-        setTop(
-            data.data.map(track => {
-            const smallestAlbumImage = track.album.images.reduce(
-                (smallest, image) => {
-                if (image.height < smallest.height) return image
-                return smallest
-                },
-                track.album.images[0]
-            )
-            const largestAlbumImage = track.album.images.reduce(
-                (largest, image) => {
-                if (image.height > largest.height) return image
-                return largest
-                },
-                track.album.images[0]
-            )
-    
-            return {
-                artist: track.artists[0].name,
-                title: track.name,
-                uri: track.uri,
-                albumUrl: smallestAlbumImage.url,
-                id: track.id,
-                largeAlbumUrl:largestAlbumImage.url,
-            }
+        if (data.data !== ""){
+          setTop(
+              data.data.map(track => {
+              const smallestAlbumImage = track.album.images.reduce(
+                  (smallest, image) => {
+                  if (image.height < smallest.height) return image
+                  return smallest
+                  },
+                  track.album.images[0]
+              )
+              const largestAlbumImage = track.album.images.reduce(
+                  (largest, image) => {
+                  if (image.height > largest.height) return image
+                  return largest
+                  },
+                  track.album.images[0]
+              )
+      
+              return {
+                  artist: track.artists[0].name,
+                  title: track.name,
+                  uri: track.uri,
+                  albumUrl: smallestAlbumImage.url,
+                  id: track.id,
+                  largeAlbumUrl:largestAlbumImage.url,
+              }
             })
-        )
+        )} else{
+          setTop("error")
+        }
     })
     axios.get('/spotify/get-discover').then((data)=>{
+      if (data.data !== ""){
         setDiscover(
             data.data.map(radio=>{
                 const tracks = radio[0].map(track=>{
@@ -176,7 +180,10 @@ const Main = ({token,fetchData}) => {
                 genres:radio[1],
             }
         })
-        )
+        )}
+        else{
+          setDiscover("error")
+        }
     })
     axios.get("/spotify/get-user").then(data=>{
       setCreator(data.data.email)

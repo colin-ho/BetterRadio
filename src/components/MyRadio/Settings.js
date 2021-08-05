@@ -123,6 +123,7 @@ const Settings = React.forwardRef(({radio,update,close},ref) => {
 
     useEffect(()=>{
         axios.post('/spotify/get-playlist-recs',{'track':[radio.songs[0].track_id]}).then((data)=>{
+            if (data.data!==""){
             setRecs(
                 data.data.map(track => {
                     const smallestAlbumImage = track.album.images.reduce(
@@ -149,7 +150,10 @@ const Settings = React.forwardRef(({radio,update,close},ref) => {
                         largeAlbumUrl:largestAlbumImage.url,
                     }
                 })
-            )
+            )}
+            else{
+                setRecs("error")
+            }
         })
     },[radio])
 
@@ -189,13 +193,13 @@ const Settings = React.forwardRef(({radio,update,close},ref) => {
             ))}</>:<div className={classes.loading1}><CircularProgress /></div>}</Grid>:<>
                 <Typography style={{marginTop:5}}>Suggested Tracks</Typography>
                 <Grid item className = {classes.recs}>
-                {recs ? <>{recs.map(track => (
+                {recs ? recs!=="error"?<>{recs.map(track => (
                 <TrackSearchResult
                     track={track}
                     key={track.uri}
                     addTrack={addTrack}
                 />
-            ))}</>:<div className={classes.loading1}><CircularProgress /></div>}</Grid></>}
+            ))}</>:<Typography color="secondary">No recommendations yet, please listen to more music.</Typography>:<div className={classes.loading1}><CircularProgress /></div>}</Grid></>}
             {added.length ===0? <div style={{height:'32px'}}/>:<Typography variant='h6'>Added Tracks</Typography>}
             <Grid item className = {classes.added}>
                 {added.map(track => (

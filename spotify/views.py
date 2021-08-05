@@ -49,6 +49,7 @@ class GetToken(APIView):
 
         update_or_create_user_tokens(
             request.session.session_key, access_token, token_type, expires_in, refresh_token)
+
         return Response({'accessToken':access_token,'expiresIn':expires_in}, status=status.HTTP_200_OK)
 
 class RefreshToken(APIView):

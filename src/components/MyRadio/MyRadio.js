@@ -188,7 +188,10 @@ const MyRadio = ({chooseRadio,radioData,errorMessage,update}) => {
                     </Grid>
                 </Grid>
             )))}
-            {errorMessage && <Typography variant="h3">{errorMessage}</Typography>}
+            {errorMessage && <>
+            <Typography variant="h3">{errorMessage}</Typography>
+            <Typography variant="h6" color="textSecondary">Please create radios from the Homepage</Typography>
+            </>}
             <Modal
                 open={settingsOpen}
                 onClose={()=>handleClose()}
