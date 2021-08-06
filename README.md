@@ -1,70 +1,126 @@
-# Getting Started with Create React App
+<!-- PROJECT LOGO -->
+<br />
+<p align="center">
+  <a href="https://github.com/colin-ho/BetterRadio">
+    <img src="images/Logo.png" alt="Logo" width="80" height="80">
+  </a>
+  <a href="https://better-radio.herokuapp.com">
+    <h1 align="center">BetterRadio</h3>
+  </a>
+  <p align="center">
+    Recommendation focused music player powered by Spotify Web API
+  </p>
+</p>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Product Name Screen Shot][product-screenshot1]
 
-## Available Scripts
+<!-- TABLE OF CONTENTS -->
+<details open="open">
+  <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#key-features">Key Features</a></li>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgements">Acknowledgements</a></li>
+  </ol>
+</details>
 
-In the project directory, you can run:
 
-### `yarn start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<!-- ABOUT THE PROJECT -->
+## About The Project
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+**[BetterRadio](https://better-radio.herokuapp.com)** is an app that finds the songs you love. Customise, create, and discover new playlists based on your favorite artists and genres.
 
-### `yarn test`
+![Product Name Screen Shot][product-screenshot3]
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Key Features
+  - **Discover**: Get an array of playlists based on the top genres you listen to. Each playlist will contain 15-20 songs corresponding to a group of similar genres.
+  - **Create**: Generate your own playlists based on any number of songs, and customise them with up to 14 different unique track attributes i.e. popularity, energy, danceability.
+  - **Browse**: Search for songs, and browse through the top tracks from your favorite artists. Search results are filtered based on your top artists and listening preferences.
+  - **My Radio**: See and play all your custom playlists, and get the option to add them to your own Spotify account.
 
-### `yarn build`
+![Product Name Screen Shot][product-screenshot2]
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Built With
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+* [React](https://reactjs.org/)
+* [Django](https://www.djangoproject.com/)
+* [Spotify Web API](https://developer.spotify.com/documentation/web-api/)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<!-- GETTING STARTED -->
+## Getting Started
+Contact colin.ho99@gmail.com to request access for the public version, which is available [here](better-radio.herokuapp.com).
 
-### `yarn eject`
+To get a local copy up and running follow these simple steps.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Prerequisites
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+* Spotify Premium
+* Desktop Computer with Chrome/Firefox/Edge/Internet Explorer (required for in-app playback)
+* npm
+  ```sh
+  npm install npm@latest -g
+  ```
+* Python virtual environment
+  ```sh
+  python3 -m venv env
+  source env/bin/activate
+  ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Installation
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+1. Clone the repo
+   ```sh
+   git clone https://github.com/colin-ho/BetterRadio.git
+   ```
+2. Install NPM packages
+   ```sh
+   npm install
+   ```
+3. Install Python packages
+   ```sh
+   pip install -r requirements.txt
+   ```
+4. Create .env file containing environment variables listed in spotify/credentials.py
+   ```sh
+   touch .env
+   ```
+6. Make migrations and run backend server
+    ```sh
+   python manage.py migrate
+   python manage.py runserver
+   ```
+5. Start frontend
+    ```sh
+   npm start
+   ```
 
-## Learn More
+<!-- CONTACT -->
+## Contact
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- **Colin Ho** - [Linked-In](https://www.linkedin.com/in/colin-ho99/) - [Email](colin.ho99@gmail.com)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<!-- ACKNOWLEDGEMENTS -->
+## Acknowledgements
 
-### Code Splitting
+* [React-Spotify-Web-Playback](https://github.com/gilbarbara/react-spotify-web-playback)
+* [Material-UI](https://material-ui.com/)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[product-screenshot1]: images/Home.png
+[product-screenshot2]: images/Browse.png
+[product-screenshot3]: images/Mobile.png
