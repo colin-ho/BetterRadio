@@ -9,6 +9,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 # Create your views here.
 
+
 class CreatePlaylist(APIView):
     def post(self,request,format=None):
         creator = request.data.get('creator')

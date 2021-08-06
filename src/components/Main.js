@@ -258,7 +258,6 @@ const Main = ({token,fetchData}) => {
           </IconButton>
           }
       />
-      {console.log(token)}
       </>:window.location = ""
   )
 

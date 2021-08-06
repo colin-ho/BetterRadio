@@ -77,7 +77,6 @@ def is_spotify_authenticated(session_id):
 
 
 def refresh_spotify_token(session_id):
-    print('refreshing')
     refresh_token = get_user_tokens(session_id).refresh_token
 
     response = post('https://accounts.spotify.com/api/token', data={
@@ -116,7 +115,6 @@ def execute_spotify_api_request(session_id,endpoint,post_=False,put_=False,data=
     try:
         return response.json()
     except:
-        print(response.json())
         return {'Error': 'Issue with request'}
 
 def search_song(session_id,query):

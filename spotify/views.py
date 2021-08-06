@@ -1,11 +1,9 @@
-from django.shortcuts import render, redirect
 from .credentials import REDIRECT_URI, CLIENT_SECRET, CLIENT_ID,PASSWORD
 from rest_framework.views import APIView
 from requests import Request, post
 from rest_framework import status
 from rest_framework.response import Response
 from .util import *
-from urllib.parse import urlparse,parse_qs
 
 class IsAuthenticated(APIView):
     def get(self, request, format=None):

@@ -2,6 +2,7 @@ import React,{useState} from 'react'
 import useAuth from './Auth'
 import { makeStyles } from '@material-ui/core/styles';
 import {Grid,Button, Typography, TextField,CircularProgress} from '@material-ui/core';
+import logo from './Logo.png'
 import axios from 'axios';
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
@@ -12,9 +13,16 @@ const useStyles = makeStyles(() => ({
         minHeight: "100vh",
         padding:'0 30px 0 30px',
     },
+    img:{
+        marginBottom:'20px',
+        width:'150px',
+        '@media screen and (max-width: 768px)':{
+            width:'100px',
+          }
+    },
     box:{
-        marginTop:'200px',
-        marginBottom:'100px',
+        marginTop:'170px',
+        marginBottom:'30px',
     },
     login:{
         marginTop:'10px',
@@ -50,11 +58,9 @@ const Login = () => {
         token ? window.location = "" :
         <Grid container className={classes.root} direction="column" justify = "flex-start"  alignItems="center">
             <Grid item container direction="column" alignItems="center" className={classes.box}>
-                <Typography variant='h2' align="center" >Welcome</Typography>
-                <Typography variant='h6' align="center" color="textSecondary">BetterRadio is a recommendation focused music player powered by Spotify Web API</Typography>
-            </Grid>
-            <Grid item container direction="column" alignItems="center" >
-                <Typography variant='body2' align="center" color="textSecondary">Contact colin.ho99@gmail.com to request access</Typography>
+                <img className={classes.img}src={logo} alt="Logo"/>
+                <Typography color="secondary" align="center" variant = "h4">BetterRadio</Typography>
+                <Typography variant='h6' align="center" color="textSecondary">A recommendation focused music player powered by Spotify Web API</Typography>
                 <Grid item container direction="row" justify="center" className={classes.login}>
                     <form onSubmit={(e)=>handleLogin(e)}>
                         <TextField placeholder="Password" value = {password} variant="outlined" size="small"
@@ -65,7 +71,11 @@ const Login = () => {
                 </Grid>
                 {error ? <Typography color="error">{error}</Typography>:null}
             </Grid>
+            <Grid item container direction="column" alignItems="center" >
+                
+            </Grid>
             <Grid item container direction="column" alignItems="center" className={classes.foot}>
+                <Typography variant='body2' align="center" color="textSecondary">Contact colin.ho99@gmail.com to request access</Typography>
                 <Typography variant='body2' align="center" color="textSecondary">Spotify Premium is required for this app</Typography>
                 <Typography variant='body2' align="center" color="textSecondary">To enable in-app playback, use Chrome/Firefox/Edge/Internet Explorer on a desktop computer </Typography>
                 <Typography align="center" color="secondary" style={{marginTop:10}}>BetterRadio© {new Date().getFullYear()} | Built and designed by Colin Ho</Typography>

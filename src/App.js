@@ -30,7 +30,6 @@ const App=()=> {
         .get("spotify/refresh")
         .then(res => {
           setToken(res.data.accessToken)
-          console.log('refreshing')
         })
     }, (expiry - 60)*1000)
 

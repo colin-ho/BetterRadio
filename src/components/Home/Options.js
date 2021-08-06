@@ -38,7 +38,6 @@ const Options = ({options,setOptions,reset}) => {
 
     return (
         <Grid container className={classes.root}>
-            {console.log(options)}
             <Typography variant="body2" color="textSecondary">*Initial values are placeholders </Typography>
 
             <Grid item style={{width:'100%'}}>
