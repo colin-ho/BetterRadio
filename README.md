@@ -62,7 +62,7 @@
 
 <!-- GETTING STARTED -->
 ## Getting Started
-Contact colin.ho99@gmail.com to request access for the public version, which is available [here](better-radio.herokuapp.com).
+Contact colin.ho99@gmail.com to request access for the public version, which is available [here](https://better-radio.herokuapp.com).
 
 To get a local copy up and running follow these simple steps.
 
