@@ -111,7 +111,7 @@ To get a local copy up and running follow these simple steps.
 <!-- CONTACT -->
 ## Contact
 
-- **Colin Ho** - [Linked-In](https://www.linkedin.com/in/colin-ho99/) - [Email](colin.ho99@gmail.com)
+- **Colin Ho** - [Linked-In](https://www.linkedin.com/in/colin-ho99/) - colin.ho99@gmail.com
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
